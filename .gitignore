@@ -8,6 +8,17 @@
 .localdevserver/
 deploy-options.json
 
+# Salesforce project irrelevant folders and files
+config/
+scripts/
+.forceignore
+.prettierignore
+.prettierrc
+eslint.config.js
+jest.config.js
+package.json
+sfdx-project.json
+
 # LWC VSCode autocomplete
 **/lwc/jsconfig.json
 
@@ -46,3 +57,12 @@ $RECYCLE.BIN/
 **/__pycache__/
 **/.venv/
 **/venv/
+
+# Added by Illuminated Cloud
+/IlluminatedCloud/
+/out/
+target/
+/.illuminatedCloud/
+**/tsconfig*.json
+**/*.tsbuildinfo
+**/graphql.config.yml
