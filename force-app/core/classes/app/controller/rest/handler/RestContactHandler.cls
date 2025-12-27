@@ -25,7 +25,7 @@ public with sharing class RestContactHandler extends AbstractRestHandler {
             List<ContactDto> contactDtosWithIds = this.contactAppService.createContacts(contactDtos);
 
             RestContextFacade.setResponseBody(contactDtosWithIds);
-        } catch (StringException e) {
+        } catch (JSONException e) {
             throw new InvalidDataException('Invalid request payload.');
         }
     }

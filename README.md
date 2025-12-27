@@ -1,57 +1,52 @@
-# Domain-Driven Design & Layered Architecture for Enterprise Salesforce Projects
+# Scaling Apex Development with Consistent Architecture
 
-## Introduction
+## The Challenge of Salesforce Projects
 
-While working on large Salesforce projects in large teams, I often encountered a lack of a consistent approach to
-backend code organization. Although Trailhead and Apex Enterprise Patterns using the fflib library provide solid
-guidance, they can feel too heavyweight for mid-sized or evolving projects where simplicity matters.
+As Salesforce projects grow and more developers join the team, keeping the Apex codebase clean and consistent becomes
+harder. Even when coding standards exist, different developers may make different decisions, which can lead to:
 
-This motivated me to look for a more balanced solution. Discovering Domain-Driven Design (DDD) was a turning point.
-Although Apex Enterprise Patterns and DDD have a lot in common, I found that DDD can be a strong alternative.
+* **Scattered business logic** across triggers, helper classes, and utilities
+* **Complexity in locating** implemented logic in the existing codebase
+* **Tight coupling** that makes testing and maintenance difficult
+* **Longer onboarding time** for new developers
+* **Different architectural styles** appearing over time ("architecture drift")
 
-This repository is the result of that exploration and represents a DDD-inspired approach to structuring Apex code. It
-provides two major benefits:
+## The Solution: Using a Clear Folder Structure and Company Standards
 
-1) Immediate Practicality: Logical folder structures (such as domain/, application/, and infrastructure/) significantly
-   improve code discoverability, making it faster to locate, understand, and modify logic—directly accelerating team
-   workflows.
+This repository shows a practical approach to a DDD-inspired folder structure that improves Apex code clarity and
+organization.
 
-2) Long-Term Quality: The clear separation of concerns naturally encourages adherence to foundational software
-   principles such as SOLID, DRY, and Separation of Concerns.
+Instead of adding many rules, this approach uses visual structure to guide developers naturally. By organizing code by
+business use cases and clear layers, we get:
 
-While introducing DDD adds some initial complexity, the approach pays off in enterprise environments by significantly
-improving long-term code quality and streamlining development workflows for large teams.
+* **Reduced cognitive load** through predictable organization
+* **Better separation of concerns** without strict enforcement
+* **Making code easy to navigate** by business area and layer
+* **Clear examples** for implementing new features
+* **Sustainable scalability** as business requirements evolve
+* **Easier knowledge sharing** within the team
 
-## Overview
+This approach works especially well for mid-sized and large projects, where consistency saves time in the long run.
+Although DDD can be complex, adopting its principles step by step helps avoid over-engineering and supports sustainable
+growth.
 
-The project is organized following a layered architecture inspired by DDD principles. The fundamental rule is
-unidirectional dependency: outer layers depend on inner layers, but not vice versa. This ensures the domain logic
-remains pure and independent.
+*Note: This is one possible approach. The best solution always depends on project needs, team size, and company
+standards.*
 
-This repository contains a custom-built inbound REST API framework designed for the Salesforce platform. The framework
-implements the Front Controller pattern to provide a unified entry point, dynamic request routing, centralized error
-handling and logging, as well as a clear separation of concerns for processing external API requests.
+## Main Architectural Layers
 
-The Data Transfer Object (DTO) is used in this project to establish a clean contract between Salesforce and external
-systems. This abstraction decouples the internal Salesforce data model from the external API, allowing both sides to
-evolve independently without breaking the integration. This is especially applicable in point-to-point integrations
-(without middleware such as MuleSoft), where DTOs act as a lightweight anti-corruption layer.
+* **Application Layer** coordinates use cases and workflows. UI and API controllers start here.
+* **Domain Layer** contains core business rules and logic. This layer should not depend on Salesforce-specific details.
+* **Infrastructure Layer** handles Salesforce-specific work such as SOQL queries, calls to third-party APIs, and
+  utilities.
 
-## Brief Description of Domain-Driven Design (DDD) Layers
+## Example Implementation
 
-The Application Layer orchestrates specific use cases and user interactions. It acts as the intermediary between
-external interfaces (like REST APIs) and the core business logic, coordinating workflows, and delegating tasks to the
-domain layer. It contains application services and primary adapters (e.g., REST controllers) that initiate system
-operations.
+This repository provides an overview of:
 
-The Domain Layer is the heart of the system, containing the pure, use-case-independent business logic, rules, and
-entities. It is the most stable and isolated part of the architecture, ensuring that core business concepts remain
-unaffected by changes in external interfaces or technology choices. This layer defines the fundamental behavior of the
-system.
+* DDD-inspired folder structure that guides developers
+* Front Controller pattern for a single API entry point
+* Centralized error handling and logging
 
-The Infrastructure Layer provides the technical capabilities and concrete implementations that support the other layers.
-It handles all interactions with external systems, such as database persistence (via SOQL), calls to third-party APIs,
-and other platform-specific details. This layer plugs in the abstract domain and application models into the
-real-world technical environment.
-
-![layers](./pics/ddd-layers-onion.png)
+*Note: This repository focuses mainly on the Application and Infrastructure layers. The Domain layer is intentionally
+omitted, as it requires deep knowledge of a specific business area and would make the example more complex.*

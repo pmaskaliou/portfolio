@@ -1,10 +1,10 @@
 public with sharing class RestRequestHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger();
 
-    private final Map<Type, RestErrorMessage> restErrorMessagesByTypes;
+    private final Map<Type, RestErrorMessage> restErrorMessagesByExceptionType;
 
-    public RestRequestHandler(Map<Type, RestErrorMessage> restErrorMessagesByTypes) {
-        this.restErrorMessagesByTypes = restErrorMessagesByTypes;
+    public RestRequestHandler(Map<Type, RestErrorMessage> restErrorMessagesByExceptionType) {
+        this.restErrorMessagesByExceptionType = restErrorMessagesByExceptionType;
     }
 
     public void handleRequest(RestHandler concreteHandler, String httpMethod) {
@@ -38,8 +38,8 @@ public with sharing class RestRequestHandler {
     private void handleException(Exception e) {
         Type exceptionType = this.getType(e);
 
-        if (this.restErrorMessagesByTypes.containsKey(exceptionType)) {
-            RestErrorMessage errorMessage = this.restErrorMessagesByTypes.get(exceptionType);
+        if (this.restErrorMessagesByExceptionType.containsKey(exceptionType)) {
+            RestErrorMessage errorMessage = this.restErrorMessagesByExceptionType.get(exceptionType);
             if (errorMessage.statusCode != null) {
                 RestContextFacade.setResponseStatusCode(errorMessage.statusCode);
             }
